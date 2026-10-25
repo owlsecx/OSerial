@@ -18,18 +18,20 @@
 
 ## 📌 Overview
 
-Insecure Deserialization Auditor — blob inspector & source sink scanner
+
+OSerial is an offline insecure-deserialization auditor that statically inspects serialized blobs and source trees without ever deserializing untrusted data. It recognises Java, Python pickle, PHP, .NET, ViewState, Ruby, YAML and Node formats, unwraps base64/hex/url/gzip/zlib layers, and flags known gadget chains. Findings are graded A+ to F with CWE-502 and MITRE tags and can be exported as TXT, Markdown, JSON, CSV or SARIF for CI pipelines.
 
 ---
 
 ## ✨ Features
 
-- Offline blob inspector (Java/Pickle/PHP/.NET/ViewState/Ruby/YAML/Node)
-- Layer unwrapper (base64/hex/url/gzip/zlib) + format autodetection
-- Gadget-chain detection (ysoserial / phpggc / ysoserial.net / RubyGems)
-- Source-code sink scanner across Python/Java/PHP/C#/Ruby/JS
-- Grades A+..F, CWE-502 + MITRE tags, TXT/MD/JSON/CSV/SARIF export
-- --demo self-test with synthetic blobs + vulnerable source tree
+
+- Offline blob inspector for Java, Pickle, PHP, .NET, ViewState, Ruby, YAML and Node payloads (never calls loads/unserialize)
+- Layer unwrapper (base64 / hex / url / gzip / zlib) with automatic format detection
+- Gadget-chain detection modelled on ysoserial, phpggc, ysoserial.net and RubyGems
+- Source-code sink scanner across Python, Java, PHP, C#, Ruby and JavaScript
+- A+..F grading with CWE-502 and MITRE tags; severity filtering and CI gating via --fail-on
+- Exports to TXT, Markdown, JSON, CSV and SARIF, plus a --demo self-test with synthetic blobs
 
 ---
 
@@ -42,8 +44,13 @@ Insecure Deserialization Auditor — blob inspector & source sink scanner
 
 ## 🚀 Usage
 
+
 ```bash
-./OSerial
+./OSerial --scan ./src --format sarif -o deser.sarif
+./OSerial --blob payload.bin --show-opcodes
+./OSerial --data "$B64_BLOB" --format-hint java --min-severity high
+./OSerial --demo
+./OSerial --help
 ```
 
 ---
